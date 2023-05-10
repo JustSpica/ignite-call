@@ -1,35 +1,58 @@
-import { Button, TextInput } from '@ignite-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, Text, TextInput } from '@ignite-ui/react'
 import { useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
 import { z } from 'zod'
 
-import { Form } from './styles'
+import { Form, FormAnnotation } from './styles'
 
 const claimUsernameFormSchema = z.object({
-  username: z.string(),
+  username: z
+    .string()
+    .min(3, { message: 'O usuário precisa ter no mínimo 3 letras' })
+    .regex(/^([a-z\\-]+)$/i, {
+      message: 'o usuário pode ter apenas letras e hifens',
+    })
+    .transform((username) => username.toLowerCase()),
 })
 
 type ClaimUsernameFormType = z.infer<typeof claimUsernameFormSchema>
 
 export function ClaimUsernameForm() {
-  const { register, handleSubmit } = useForm<ClaimUsernameFormType>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ClaimUsernameFormType>({
+    resolver: zodResolver(claimUsernameFormSchema),
+  })
 
   async function handleClaimUsername(data: ClaimUsernameFormType) {
     console.log(data)
   }
 
   return (
-    <Form as="form" onSubmit={handleSubmit(handleClaimUsername)}>
-      <TextInput
-        size="sm"
-        prefix="ignite.com/"
-        placeholder="seu-usuario"
-        {...register('username')}
-      />
-      <Button type="submit" size="sm">
-        Reservar usuário
-        <ArrowRight />
-      </Button>
-    </Form>
+    <>
+      <Form as="form" onSubmit={handleSubmit(handleClaimUsername)}>
+        <TextInput
+          size="sm"
+          prefix="ignite.com/"
+          placeholder="seu-usuario"
+          {...register('username')}
+        />
+        <Button type="submit" size="sm">
+          Reservar usuário
+          <ArrowRight />
+        </Button>
+      </Form>
+
+      <FormAnnotation>
+        <Text>
+          {errors.username
+            ? errors.username.message
+            : 'Digite um nome de usuário'}
+        </Text>
+      </FormAnnotation>
+    </>
   )
 }
