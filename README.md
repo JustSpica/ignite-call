@@ -25,7 +25,6 @@ O Ignite call é um projeto de uma agenda online construída em React, que tem c
 ## 🔨 Ferramentas adicionais
 - [X] React Hook Form
 - [X] Phosphor React
-- [] Axios
 - [X] ESLint
 - [X] Prettier
 
