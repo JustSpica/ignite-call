@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
 import { z } from 'zod'
 
+import { createUser } from 'services/user'
+
 import { Container, Form, FormError, Header } from './styles'
 
 const registerFormSchema = z.object({
@@ -34,7 +36,7 @@ export default function Register() {
   })
 
   async function handleRegister(data: RegisterFormType) {
-    console.log(data)
+    await createUser({ name: data.name, username: data.username })
   }
 
   useEffect(() => {
