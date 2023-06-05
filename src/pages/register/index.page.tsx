@@ -36,7 +36,13 @@ export default function Register() {
   })
 
   async function handleRegister(data: RegisterFormType) {
-    await createUser({ name: data.name, username: data.username })
+    try {
+      await createUser({ name: data.name, username: data.username })
+
+      await router.push('/register/connect-calendar')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
