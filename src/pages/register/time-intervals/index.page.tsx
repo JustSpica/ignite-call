@@ -14,6 +14,8 @@ import * as zod from 'zod'
 import { convertTimeStringToMinutes } from '@utils/convert-time-string-to-minutes'
 import { getWeekDays } from '@utils/get-week-days'
 
+import { api } from 'lib/axios'
+
 import {
   FormError,
   IntervalBox,
@@ -42,7 +44,7 @@ const timeIntervalsFormSchema = zod.object({
     .transform((intervals) => {
       return intervals.map((interval) => {
         return {
-          weekday: interval.weekDay,
+          weekDay: interval.weekDay,
           startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
           endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
         }
@@ -95,7 +97,11 @@ export default function TimeIntervals() {
   const intervals = watch('intervals')
 
   async function hanldeSetTimeIntervals(data: TimeIntervalsFormOutput) {
-    console.log(data)
+    const { intervals } = data
+
+    await api.post('/users/time-intervals', {
+      intervals,
+    })
   }
 
   const weekDays = getWeekDays()
