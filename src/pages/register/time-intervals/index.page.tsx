@@ -25,6 +25,7 @@ import {
   IntervalsContainer,
 } from './styles'
 import { Container, Header } from '../styles'
+import { useRouter } from 'next/router'
 
 const timeIntervalsFormSchema = zod.object({
   intervals: zod
@@ -89,6 +90,8 @@ export default function TimeIntervals() {
     resolver: zodResolver(timeIntervalsFormSchema),
   })
 
+  const router = useRouter()
+
   const { fields } = useFieldArray({
     control,
     name: 'intervals',
@@ -102,6 +105,8 @@ export default function TimeIntervals() {
     await api.post('/users/time-intervals', {
       intervals,
     })
+
+    await router.push('/register/update-profile')
   }
 
   const weekDays = getWeekDays()

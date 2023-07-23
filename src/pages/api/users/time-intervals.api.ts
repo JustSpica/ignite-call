@@ -31,8 +31,6 @@ export default async function handler(
 
   const { intervals } = req.body as RequestBody
 
-  console.log(intervals)
-
   await Promise.all(
     intervals.map((interval) => {
       return prisma.userTimeInterval.create({
