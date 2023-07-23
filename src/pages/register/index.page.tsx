@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
 import { z } from 'zod'
 
-import { createUser } from 'services/user'
+import { createUser } from 'services/users'
 
 import { Container, Form, FormError, Header } from './styles'
 

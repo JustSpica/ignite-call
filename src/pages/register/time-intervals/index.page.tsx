@@ -7,14 +7,14 @@ import {
   Text,
   TextInput,
 } from '@ignite-ui/react'
+import { useRouter } from 'next/router'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
 import * as zod from 'zod'
 
+import { createUserIntervals } from 'services/users'
 import { convertTimeStringToMinutes } from '@utils/convert-time-string-to-minutes'
 import { getWeekDays } from '@utils/get-week-days'
-
-import { api } from 'lib/axios'
 
 import {
   FormError,
@@ -25,7 +25,6 @@ import {
   IntervalsContainer,
 } from './styles'
 import { Container, Header } from '../styles'
-import { useRouter } from 'next/router'
 
 const timeIntervalsFormSchema = zod.object({
   intervals: zod
@@ -99,12 +98,8 @@ export default function TimeIntervals() {
 
   const intervals = watch('intervals')
 
-  async function hanldeSetTimeIntervals(data: TimeIntervalsFormOutput) {
-    const { intervals } = data
-
-    await api.post('/users/time-intervals', {
-      intervals,
-    })
+  async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
+    await createUserIntervals({ intervals: data.intervals })
 
     await router.push('/register/update-profile')
   }
@@ -123,7 +118,7 @@ export default function TimeIntervals() {
         <MultiStep size={4} currentStep={3} />
       </Header>
 
-      <IntervalBox as={'form'} onSubmit={handleSubmit(hanldeSetTimeIntervals)}>
+      <IntervalBox as={'form'} onSubmit={handleSubmit(handleSetTimeIntervals)}>
         <IntervalsContainer>
           {fields.map((day, index) => (
             <IntervalItem key={day.id}>

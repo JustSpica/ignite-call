@@ -14,11 +14,12 @@ import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
 import { z } from 'zod'
-import { buildNextAuthOptions } from 'pages/api/auth/[...nextauth].api'
+
+import { updateBioProfile } from 'services/users'
+import { buildNextAuthOptions } from '@pages/api/auth/[...nextauth].api'
 
 import { FormAnnotation, ProfileBox } from './styles'
 import { Container, Header } from '../styles'
-import { api } from 'lib/axios'
 
 const updateProfileSchema = z.object({
   bio: z.string(),
@@ -38,11 +39,7 @@ export default function UpdateProfile() {
   const session = useSession()
 
   async function handleUpdateProfile(data: UpdateProfileType) {
-    const { bio } = data
-
-    await api.put('/users/profile', {
-      bio,
-    })
+    await updateBioProfile(data.bio)
   }
 
   return (

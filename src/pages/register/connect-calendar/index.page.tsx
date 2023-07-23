@@ -4,7 +4,6 @@ import { signIn, useSession } from 'next-auth/react'
 import { ArrowRight, Check } from 'phosphor-react'
 
 import { AuthError, ConnectBox, ConnectItem } from './styles'
-
 import { Container, Header } from '../styles'
 
 export default function ConnectCalendar() {
