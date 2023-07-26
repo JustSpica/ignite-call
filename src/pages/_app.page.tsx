@@ -3,6 +3,8 @@ import { SessionProvider } from 'next-auth/react'
 
 import { globalstyles } from '@styles/global'
 
+import 'lib/dayjs'
+
 globalstyles()
 
 export default function App({
