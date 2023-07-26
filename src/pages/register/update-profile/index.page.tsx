@@ -10,6 +10,7 @@ import {
 
 import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { ArrowRight } from 'phosphor-react'
@@ -37,9 +38,12 @@ export default function UpdateProfile() {
   })
 
   const session = useSession()
+  const router = useRouter()
 
   async function handleUpdateProfile(data: UpdateProfileType) {
     await updateBioProfile(data.bio)
+
+    await router.push(`/schedule/${session.data?.user.username}`)
   }
 
   return (
