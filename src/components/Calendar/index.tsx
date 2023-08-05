@@ -21,17 +21,28 @@ interface CalendarWeek {
   }[]
 }
 
+interface BlockedData {
+  blockedDates: number[]
+  blockedWeekDays: number[]
+}
+
 export interface CalendarProps {
-  selectedDate: Date | null
+  blockedData: BlockedData | undefined
   onDateSelected: (date: Date) => void
 }
 
-export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
+export function Calendar({ onDateSelected, blockedData }: CalendarProps) {
   const [firstDayCurrentMonth, setFirstDayCurrentMonth] = useState(() => {
     return dayjs().set('date', 1)
   })
 
   const calendarWeeks = useMemo(() => {
+    if (!blockedData?.blockedDates) {
+      return []
+    }
+
+    const { blockedDates, blockedWeekDays } = blockedData
+
     const daysInCurrentMonth = Array.from({
       length: firstDayCurrentMonth.daysInMonth(),
     }).map((_, index) => {
@@ -63,7 +74,13 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
         return { date, disabled: true }
       }),
       ...daysInCurrentMonth.map((date) => {
-        return { date, disabled: date.endOf('day').isBefore(new Date()) }
+        return {
+          date,
+          disabled:
+            date.endOf('day').isBefore(new Date()) ||
+            blockedDates.includes(date.get('day')) ||
+            blockedWeekDays.includes(date.get('day')),
+        }
       }),
       ...daysOfNextMonth.map((date) => {
         return { date, disabled: true }
@@ -87,7 +104,7 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
     )
 
     return calendarWeeks
-  }, [firstDayCurrentMonth])
+  }, [firstDayCurrentMonth, blockedData])
 
   const shortWeekdays = getWeekDays({ short: true })
 
