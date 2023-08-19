@@ -5,15 +5,22 @@ import {
   AvailabilityHoursResponse,
   BlockedDatesParams,
   BlockedDatesResponse,
-  CreateTimeIntervalsParams,
 } from './@types/users'
 
 export async function createUser<T>(body: T) {
   await api.post<T>('/users', body)
 }
 
-export async function createUserIntervals(body: CreateTimeIntervalsParams) {
-  await api.post('/users/time-intervals', body)
+export async function createUserIntervals<T>(body: T) {
+  await api.post<T>('/users/time-intervals', body)
+}
+
+export async function createUserScheduling() {
+  await api.post(`/users/`)
+}
+
+export async function confirmUserSchedulingData<T>(username: string, body: T) {
+  await api.post(`/users/${username}/schedule`, body)
 }
 
 export async function updateBioProfile(bio: string) {

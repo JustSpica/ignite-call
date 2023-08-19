@@ -1,11 +1,3 @@
-export interface CreateTimeIntervalsParams {
-  intervals: {
-    weekDay: number
-    startTimeInMinutes: number
-    endTimeInMinutes: number
-  }[]
-}
-
 export interface BlockedDatesParams {
   month: number
   username: string
