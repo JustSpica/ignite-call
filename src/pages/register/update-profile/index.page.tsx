@@ -55,7 +55,7 @@ export default function UpdateProfile() {
           editar essas informações depois.
         </Text>
 
-        <MultiStep currentStep={1} size={4} />
+        <MultiStep currentStep={4} size={4} />
       </Header>
 
       <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>

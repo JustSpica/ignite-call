@@ -115,7 +115,7 @@ export default function TimeIntervals() {
           semana.
         </Text>
 
-        <MultiStep size={4} currentStep={3} />
+        <MultiStep currentStep={3} size={4} />
       </Header>
 
       <IntervalBox as={'form'} onSubmit={handleSubmit(handleSetTimeIntervals)}>

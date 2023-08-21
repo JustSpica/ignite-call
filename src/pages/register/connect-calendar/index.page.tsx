@@ -26,7 +26,7 @@ export default function ConnectCalendar() {
           ocupadas e os novos eventos à medida em que são agendados.
         </Text>
 
-        <MultiStep size={4} currentStep={2} />
+        <MultiStep currentStep={2} size={4} />
       </Header>
 
       <ConnectBox>
